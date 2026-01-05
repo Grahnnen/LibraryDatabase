@@ -28,7 +28,14 @@ It allows managing books, members, loans, and returns.
 - **Default values** for dates and availability
 - Fully normalized to **3NF**
 - Indexed `BookId` and `MemberId` in Loan table for faster queries
-  
+
+## Loan and Return Management
+
+Books are loaned to members, and returns are recorded by setting a return date on the loan. 
+An active loan is any loan without a return date, which allows the system to easily track current loans while keeping historical records intact. 
+While the current implementation does not include a due date, a DueDate column could be added to each loan to indicate when the book is expected to be returned. 
+This would make it simple to identify overdue books and manage reminders, without affecting the existing normalized structure.
+
 ## Transactions & Concurrency
 - All loan and return operations wrapped in transactions
 - Ensures data integrity during simultaneous operations
