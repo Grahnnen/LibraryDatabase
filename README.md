@@ -27,7 +27,9 @@ It allows managing books, members, loans, and returns.
 - **Unique constraints** for emails
 - **Default values** for dates and availability
 - Fully normalized to **3NF**
-- Indexed `BookId` and `MemberId` in Loan table for faster queries
+- Indexed `BookId`, `MemberId` and `ReturnDate` in Loan table for faster queries
+  <img width="1340" height="390" alt="image" src="https://github.com/user-attachments/assets/6d59e090-ba60-46c1-be1b-6346d42dfa36" />
+
 
 ## Loan and Return Management
 
