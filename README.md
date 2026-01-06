@@ -29,7 +29,11 @@ It allows managing books, members, loans, and returns.
 - Fully normalized to **3NF**
 - Indexed `BookId`, `MemberId` and `ReturnDate` in Loan table for faster queries
   <img width="1340" height="390" alt="image" src="https://github.com/user-attachments/assets/6d59e090-ba60-46c1-be1b-6346d42dfa36" />
+Primary and foreign key constraints are used to maintain relationships between books, members, and loans, ensuring that a loan can never reference a book or member that does not exist. A unique constraint on member email addresses is also applied to avoid duplicate registrations.
 
+To improve performance, indexes are added to foreign key columns, especially in the Loan table, since these columns are frequently used in joins and filtering of active loans. Transactions are used when registering loans and returns to make sure that all related changes are completed together, which prevents inconsistent data during simultaneous operations.Primary and foreign key constraints are used to maintain relationships between books, members, and loans, ensuring that a loan can never reference a book or member that does not exist. A unique constraint on member email addresses is also applied to avoid duplicate registrations.
+
+To improve performance, indexes are added to foreign key columns, especially in the Loan table, since these columns are frequently used in joins and filtering of active loans. Transactions are used when registering loans and returns to make sure that all related changes are completed together, which prevents inconsistent data during simultaneous operations.
 
 ## Loan and Return Management
 
