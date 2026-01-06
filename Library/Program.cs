@@ -11,8 +11,6 @@ namespace Library
     {
         static void Main(string[] args)
         {
-			Console.OutputEncoding = System.Text.Encoding.Unicode;
-
 			//Uses Appsettings.json to get connectionstring
 			var config = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())

@@ -30,8 +30,9 @@ namespace Library.Services
 				IsAvailable = true
 			});
 
+			//Saves book to database
 			context.SaveChanges();
-			Console.WriteLine("✅ Bok registrerad");
+			Console.WriteLine("Bok registrerad");
 		}
 
 		public static void SearchBooks(LibraryContext context)
@@ -46,7 +47,7 @@ namespace Library.Services
 
 			if (!books.Any())
 			{
-				Console.WriteLine("❌ Inga böcker hittades");
+				Console.WriteLine("Inga böcker hittades");
 				return;
 			}
 

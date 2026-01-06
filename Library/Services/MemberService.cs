@@ -25,7 +25,7 @@ namespace Library.Services
 			//Checks if the email already exists
 			if (context.Members.Any(m => m.Email == email))
 			{
-				Console.WriteLine("❌ Email används redan");
+				Console.WriteLine("Email används redan");
 				return;
 			}
 
@@ -42,12 +42,12 @@ namespace Library.Services
 			{
 				//Tries to save the new member to the database
 				context.SaveChanges();
-				Console.WriteLine("✅ Medlem registrerad");
+				Console.WriteLine("Medlem registrerad");
 			}
 			catch (DbUpdateException)
 			{
 				//Failsafe: If duplicate was found clear the save "cache" so it doesnt crash
-				Console.WriteLine("❌ En medlem med denna email finns redan.");
+				Console.WriteLine("En medlem med denna email finns redan.");
 				context.ChangeTracker.Clear();
 			}
 		}
@@ -62,11 +62,11 @@ namespace Library.Services
 			//If no members
 			if (!members.Any())
 			{
-				Console.WriteLine("❌ Inga medlemmar finns registrerade");
+				Console.WriteLine("Inga medlemmar finns registrerade");
 				return;
 			}
 
-			Console.WriteLine("\n📋 Medlemmar:");
+			Console.WriteLine("\nMedlemmar:");
 			foreach (var member in members)
 			{
 				Console.WriteLine(

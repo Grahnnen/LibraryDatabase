@@ -16,26 +16,44 @@ namespace Library.Services
 			Console.Write("BookId: ");
 			if (!int.TryParse(Console.ReadLine(), out int bookId))
 			{
-				Console.WriteLine("❌ Ogiltigt BookId");
+				Console.WriteLine("Ogiltigt BookId");
 				return;
 			}
+
 			Console.Write("MemberId: ");
 			if (!int.TryParse(Console.ReadLine(), out int memberId))
 			{
-				Console.WriteLine("❌ Ogiltigt MemberId");
+				Console.WriteLine("Ogiltigt MemberId");
 				return;
 			}
+
 			using var transaction = context.Database.BeginTransaction();
 
+			// Check if the book exists and is available
 			var book = context.Books.SingleOrDefault(b => b.BookId == bookId);
-
-			if (book == null || !book.IsAvailable)
+			if (book == null)
 			{
 				transaction.Rollback();
-				Console.WriteLine("❌ Boken är inte tillgänglig");
+				Console.WriteLine("Boken finns inte");
+				return;
+			}
+			if (!book.IsAvailable)
+			{
+				transaction.Rollback();
+				Console.WriteLine("Boken är inte tillgänglig");
 				return;
 			}
 
+			// Check if the member exists
+			var member = context.Members.SingleOrDefault(m => m.MemberId == memberId);
+			if (member == null)
+			{
+				transaction.Rollback();
+				Console.WriteLine("Medlemmen finns inte");
+				return;
+			}
+
+			// Create the loan
 			context.Loans.Add(new Loan
 			{
 				BookId = bookId,
@@ -43,12 +61,14 @@ namespace Library.Services
 				LoanDate = DateTime.Now
 			});
 
+			// Update book availability
 			book.IsAvailable = false;
 
+			// Save changes and commit transaction
 			context.SaveChanges();
 			transaction.Commit();
 
-			Console.WriteLine("✅ Lån registrerat");
+			Console.WriteLine("Lån registrerat");
 		}
 
 		public static void RegisterReturn(LibraryContext context)
@@ -56,7 +76,7 @@ namespace Library.Services
 			Console.Write("LoanId: ");
 			if (!int.TryParse(Console.ReadLine(), out int loanId))
 			{
-				Console.WriteLine("❌ Ogiltigt LoanId");
+				Console.WriteLine("Ogiltigt LoanId");
 				return;
 			}
 			//Gets the loan with user inputted ID, also checks if returndate is null for failsafe
@@ -66,15 +86,16 @@ namespace Library.Services
 
 			if (loan == null)
 			{
-				Console.WriteLine("❌ Aktivt lån hittades inte");
+				Console.WriteLine("Aktivt lån hittades inte");
 				return;
 			}
 
 			loan.ReturnDate = DateTime.Now;
 			loan.Book.IsAvailable = true;
 
+			//Saves return to database
 			context.SaveChanges();
-			Console.WriteLine("✅ Bok återlämnad");
+			Console.WriteLine("Bok återlämnad");
 		}
 
 		public static void ShowActiveLoans(LibraryContext context)
@@ -89,7 +110,7 @@ namespace Library.Services
 			foreach (var loan in loans)
 			{
 				Console.WriteLine(
-					$"{loan.LoanId}: {loan.Book.Title} → " +
+					$"{loan.LoanId}: {loan.Book.Title} -> " +
 					$"{loan.Member.FirstName} {loan.Member.LastName}");
 			}
 		}

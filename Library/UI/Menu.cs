@@ -15,7 +15,7 @@ namespace Library.UI
 			while (true)
 			{
 				Console.Clear();
-				Console.WriteLine("📚 Bibliotekssystem");
+				Console.WriteLine("Bibliotekssystem");
 				Console.WriteLine("1. Registrera ny bok");
 				Console.WriteLine("2. Registrera ny medlem");
 				Console.WriteLine("3. Registrera lån");
